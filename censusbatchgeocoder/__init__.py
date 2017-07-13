@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import io
+import csv
 import requests
 
 
@@ -52,7 +53,7 @@ class Geocoder(object):
     def geocode(self, string_or_stream, file_type='text/csv'):
         response = self.get_response(string_or_stream, file_type=file_type)
         data = ",".join(self.RESULT_HEADER) + "\n" + response.text
-        return io.StringIO(data)
+        return list(csv.DictReader(io.StringIO(data)))
 
 
 def geocode(

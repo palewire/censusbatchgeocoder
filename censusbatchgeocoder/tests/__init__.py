@@ -18,7 +18,9 @@ class GeocoderTest(unittest.TestCase):
 
     def test_stringio(self):
         sample = io.BytesIO(open(self.test_path, 'rb').read())
-        censusbatchgeocoder.geocode(sample)
+        result = censusbatchgeocoder.geocode(sample)
+        self.assertEqual(len(result), 2)
 
     def test_path(self):
-        censusbatchgeocoder.geocode(self.test_path)
+        result = censusbatchgeocoder.geocode(self.test_path)
+        self.assertEqual(len(result), 2)

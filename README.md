@@ -1,6 +1,6 @@
 # python-censusbatchgeocoder
 
-A simple Python wrapper for `U.S. Census Geocoding Services API batch service <https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf>`_.
+A simple Python wrapper for [U.S. Census Geocoding Services API batch service](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf).
 
 [![Build Status](https://travis-ci.org/datadesk/python-censusbatchgeocoder.png?branch=master)](https://travis-ci.org/datadesk/python-censusbatchgeocoder)
 [![PyPI version](https://badge.fury.io/py/censusbatchgeocoder.png)](http://badge.fury.io/py/censusbatchgeocoder)
@@ -25,15 +25,82 @@ Importing the library
 import censusbatchgeocoder
 ```
 
-Geocoding a comma-delimited file from the filesystem. Results are returned as a StringIO object.
+According to the [official Census documentation](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf), the input file should have no more than 1,000 rows and is expected to contain a comma-delimited list of addresses, without a header, segmented into the following fields.
 
-```python
-result = censusbatchgeocoder.geocode("./address.csv")
+* Your unique identifier for the record
+* Structure number and street name (required)
+* City name (optional)
+* State (optional)
+* ZIP Code (optional)
+
+An example could look like this:
+
+```text
+1,1600 Pennsylvania Ave NW,Washington,DC,20006
+2,202 W. 1st Street,Los Angeles,CA,90012
 ```
 
-Geocoding an in-memory file object.
+Geocoding a comma-delimited file from the filesystem. Results are returned as a list of dictionaries.
 
 ```python
+result = censusbatchgeocoder.geocode("./my_file.csv")
+[{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
+  'block': '1034',
+  'coordinates': '-118.24456,34.053005',
+  'county_fips': '037',
+  'geocoded_address': '202 W 1ST ST, LOS ANGELES, CA, 90012',
+  'id': '2',
+  'is_exact': 'Exact',
+  'is_match': 'Match',
+  'side': 'L',
+  'state_fips': '06',
+  'tiger_line': '141618115',
+  'tract': '207400'},
+ {'address': '1600 Pennsylvania Ave NW, Washington, DC, 20006',
+  'block': '1031',
+  'coordinates': '-77.03535,38.898754',
+  'county_fips': '001',
+  'geocoded_address': '1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20502',
+  'id': '1',
+  'is_exact': 'Non_Exact',
+  'is_match': 'Match',
+  'side': 'L',
+  'state_fips': '11',
+  'tiger_line': '76225813',
+  'tract': '006202'}]
+```
+
+You can also geocode an in-memory file object.
+
+```python
+import io
+import censusbatchgeocoder
+my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
+2,202 W. 1st Street,Los Angeles,CA,90012"""
 data_obj = io.BytesIO(my_data)
 result = censusbatchgeocoder.geocode(data_obj)
+[{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
+  'block': '1034',
+  'coordinates': '-118.24456,34.053005',
+  'county_fips': '037',
+  'geocoded_address': '202 W 1ST ST, LOS ANGELES, CA, 90012',
+  'id': '2',
+  'is_exact': 'Exact',
+  'is_match': 'Match',
+  'side': 'L',
+  'state_fips': '06',
+  'tiger_line': '141618115',
+  'tract': '207400'},
+ {'address': '1600 Pennsylvania Ave NW, Washington, DC, 20006',
+  'block': '1031',
+  'coordinates': '-77.03535,38.898754',
+  'county_fips': '001',
+  'geocoded_address': '1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20502',
+  'id': '1',
+  'is_exact': 'Non_Exact',
+  'is_match': 'Match',
+  'side': 'L',
+  'state_fips': '11',
+  'tiger_line': '76225813',
+  'tract': '006202'}]
 ```
