@@ -43,7 +43,7 @@ An example could look like this:
 Geocoding a comma-delimited file from the filesystem. Results are returned as a list of dictionaries.
 
 ```python
-result = censusbatchgeocoder.geocode("./my_file.csv")
+censusbatchgeocoder.geocode("./my_file.csv")
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
@@ -73,12 +73,9 @@ result = censusbatchgeocoder.geocode("./my_file.csv")
 You can also geocode an in-memory file object.
 
 ```python
-import io
-import censusbatchgeocoder
 my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012"""
-data_obj = io.BytesIO(my_data)
-result = censusbatchgeocoder.geocode(data_obj)
+result = censusbatchgeocoder.geocode(io.BytesIO(my_data))
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
