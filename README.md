@@ -13,8 +13,8 @@ A simple Python wrapper for [U.S. Census Geocoding Services API batch service](h
 
 ### Installation
 
-```python
-pip install censusbatchgeocoder
+```bash
+$ pip install censusbatchgeocoder
 ```
 
 ## Basic usage
@@ -22,7 +22,7 @@ pip install censusbatchgeocoder
 Importing the library
 
 ```python
-import censusbatchgeocoder
+>>> import censusbatchgeocoder
 ```
 
 According to the [official Census documentation](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf), the input file should have no more than 1,000 rows and is expected to contain a comma-delimited list of addresses, without a header, segmented into the following fields.
@@ -43,7 +43,7 @@ An example could look like this:
 Geocoding a comma-delimited file from the filesystem. Results are returned as a list of dictionaries.
 
 ```python
-censusbatchgeocoder.geocode("./my_file.csv")
+>>> censusbatchgeocoder.geocode("./my_file.csv")
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
@@ -73,9 +73,9 @@ censusbatchgeocoder.geocode("./my_file.csv")
 You can also geocode an in-memory file object.
 
 ```python
-my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
+>>> my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012"""
-result = censusbatchgeocoder.geocode(io.BytesIO(my_data))
+>>> result = censusbatchgeocoder.geocode(io.BytesIO(my_data))
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
