@@ -3,7 +3,9 @@
 from __future__ import unicode_literals
 import io
 import csv
+import logging
 import requests
+logger = logging.getLogger(__name__)
 
 
 class Geocoder(object):
@@ -48,6 +50,7 @@ class Geocoder(object):
         files = {
             'addressFile': ('batch.csv', address_file, file_type)
         }
+        logger.debug("Geocoding batch")
         return requests.post(self.URL, files=files, data=self.get_payload())
 
     def geocode(self, string_or_stream, file_type='text/csv'):
