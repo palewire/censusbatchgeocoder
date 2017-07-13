@@ -44,7 +44,7 @@ Geocoding a comma-delimited file from the filesystem. Results are returned as a 
 
 ```python
 >>> censusbatchgeocoder.geocode("./my_file.csv")
-[{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
+[{'input_address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
   'county_fips': '037',
@@ -56,7 +56,7 @@ Geocoding a comma-delimited file from the filesystem. Results are returned as a 
   'state_fips': '06',
   'tiger_line': '141618115',
   'tract': '207400'},
- {'address': '1600 Pennsylvania Ave NW, Washington, DC, 20006',
+ {'input_address': '1600 Pennsylvania Ave NW, Washington, DC, 20006',
   'block': '1031',
   'coordinates': '-77.03535,38.898754',
   'county_fips': '001',

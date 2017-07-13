@@ -10,7 +10,7 @@ class Geocoder(object):
     URL = 'https://geocoding.geo.census.gov/geocoder/geographies/addressbatch'
     RESULT_HEADER = [
         'id',
-        'address',
+        'input_address',
         'is_match',
         'is_exact',
         'geocoded_address',
