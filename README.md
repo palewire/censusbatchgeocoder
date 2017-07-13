@@ -1,6 +1,6 @@
 # python-censusbatchgeocoder
 
-A simple Python wrapper for [U.S. Census Geocoding Services API batch service](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf).
+A simple Python wrapper for [U.S. Census Geocoding Services API batch service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html).
 
 [![Build Status](https://travis-ci.org/datadesk/python-censusbatchgeocoder.png?branch=master)](https://travis-ci.org/datadesk/python-censusbatchgeocoder)
 [![PyPI version](https://badge.fury.io/py/censusbatchgeocoder.png)](http://badge.fury.io/py/censusbatchgeocoder)
@@ -25,7 +25,7 @@ Importing the library
 >>> import censusbatchgeocoder
 ```
 
-According to the [official Census documentation](https://geocoding.geo.census.gov/geocoder/Geocoding_Services_API.pdf), the input file should have no more than 1,000 rows and is expected to contain a comma-delimited list of addresses, without a header, segmented into the following fields.
+According to the [official Census documentation](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html), the input file should have no more than 1,000 rows and is expected to contain a comma-delimited list of addresses, without a header, segmented into the following fields.
 
 * Your unique identifier for the record
 * Structure number and street name (required)
