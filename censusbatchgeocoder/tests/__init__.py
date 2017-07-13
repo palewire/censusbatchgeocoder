@@ -14,13 +14,18 @@ class GeocoderTest(unittest.TestCase):
 
     def setUp(self):
         self.this_dir = os.path.abspath(os.path.dirname(__file__))
-        self.test_path = os.path.join(self.this_dir, 'test.csv')
+        self.small_path = os.path.join(self.this_dir, 'small.csv')
+        self.big_path = os.path.join(self.this_dir, 'big.csv')
 
     def test_stringio(self):
-        sample = io.BytesIO(open(self.test_path, 'rb').read())
+        sample = io.BytesIO(open(self.small_path, 'rb').read())
         result = censusbatchgeocoder.geocode(sample)
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 5)
 
     def test_path(self):
-        result = censusbatchgeocoder.geocode(self.test_path)
-        self.assertEqual(len(result), 2)
+        result = censusbatchgeocoder.geocode(self.small_path)
+        self.assertEqual(len(result), 5)
+
+    def test_big_batch(self):
+        result = censusbatchgeocoder.geocode(self.big_path)
+        self.assertEqual(len(result), 1498)
