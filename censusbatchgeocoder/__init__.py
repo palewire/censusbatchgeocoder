@@ -99,13 +99,24 @@ class Geocoder(object):
         chunk_file = io_klass()
         chunk_writer = csv.writer(chunk_file)
         for row_dict in chunk:
+            # Start off with the required fields
             row_list = [
                 row_dict[self.field_names['id']],
                 row_dict[self.field_names['address']],
                 row_dict[self.field_names['city']],
-                row_dict[self.field_names['state']],
-                row_dict[self.field_names['zipcode']],
             ]
+
+            # Add optional fields, if they are provided
+            if self.field_names['state'] is not None:
+                row_list.append(row_dict[self.field_names['state']])
+            else:
+                row_list.append('')
+            if self.field_names['zipcode'] is not None:
+                row_list.append(row_dict[self.field_names['zipcode']])
+            else:
+                row_list.append('')
+
+            # Write it out to the file object
             chunk_writer.writerow(row_list)
 
         # Request batch from the API

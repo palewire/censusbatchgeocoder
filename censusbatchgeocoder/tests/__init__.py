@@ -16,6 +16,7 @@ class GeocoderTest(unittest.TestCase):
     def setUp(self):
         self.this_dir = os.path.abspath(os.path.dirname(__file__))
         self.small_path = os.path.join(self.this_dir, 'small.csv')
+        self.incomplete_path = os.path.join(self.this_dir, 'incomplete.csv')
         self.big_path = os.path.join(self.this_dir, 'big.csv')
 
     def test_stringio(self):
@@ -29,6 +30,10 @@ class GeocoderTest(unittest.TestCase):
 
     def test_path(self):
         result = censusbatchgeocoder.geocode(self.small_path)
+        self.assertEqual(len(result), 5)
+
+    def test_state_and_zipcode(self):
+        result = censusbatchgeocoder.geocode(self.incomplete_path, state=None, zipcode=None)
         self.assertEqual(len(result), 5)
 
     def test_nopooling(self):
