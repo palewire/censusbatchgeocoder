@@ -75,7 +75,7 @@ You can also geocode an in-memory file object.
 ```python
 >>> my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012"""
->>> result = censusbatchgeocoder.geocode(io.StringIO(my_data))  # In Python 2 what you submit must be unicode()!
+>>> result = censusbatchgeocoder.geocode(io.StringIO(my_data))
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',
   'block': '1034',
   'coordinates': '-118.24456,34.053005',
