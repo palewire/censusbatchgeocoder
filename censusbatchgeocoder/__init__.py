@@ -6,6 +6,8 @@ import csv
 import six
 import logging
 import requests
+import multiprocessing
+from multiprocessing.pool import ThreadPool
 logger = logging.getLogger(__name__)
 
 
@@ -34,12 +36,14 @@ class Geocoder(object):
         benchmark='Public_AR_Current',
         vintage='Current_Current',
         return_type='locations',
-        batch_size=1000
+        batch_size=1000,
+        pooling=True,
     ):
         self.benchmark = benchmark
         self.vintage = vintage
         self.return_type = return_type
         self.batch_size = batch_size
+        self.pooling = pooling
 
     def get_payload(self):
         """
@@ -51,12 +55,12 @@ class Geocoder(object):
             'returntype': self.return_type
         }
 
-    def get_response(self, address_file, file_type='text/csv'):
+    def get_response(self, address_file):
         """
         Returns the raw geocoder result for the provided address file.
         """
         files = {
-            'addressFile': ('batch.csv', address_file, file_type)
+            'addressFile': ('batch.csv', address_file, 'text/csv')
         }
         logger.debug("Sending request")
         return requests.post(self.URL, files=files, data=self.get_payload())
@@ -70,7 +74,26 @@ class Geocoder(object):
             # Create an index range for l of n items:
             yield l[i:i+self.batch_size]
 
-    def geocode(self, string_or_stream, file_type='text/csv'):
+    def _handle_chunk(self, chunk):
+        # Convert the chunk into a file object again
+        if six.PY3:
+            chunk_file = io.StringIO()
+        else:
+            chunk_file = io.BytesIO()
+        chunk_writer = csv.writer(chunk_file)
+        chunk_writer.writerows(chunk)
+
+        # Request batch from the API
+        if six.PY3:
+            request_file = io.StringIO(chunk_file.getvalue())
+        else:
+            request_file = io.BytesIO(chunk_file.getvalue())
+        response = self.get_response(request_file)
+
+        # Add the response to what we return
+        self.response_file.write(response.text)
+
+    def geocode(self, string_or_stream):
         """
         Accepts a file object or path with a batch of addresses and attempts to geocode it.
         """
@@ -87,33 +110,22 @@ class Geocoder(object):
         address_chunks = list(self.get_chunks(address_csv))
 
         # Create the string we'll build on the fly as we hit the API and process responses
-        response_file = io.StringIO()
+        self.response_file = io.StringIO()
 
         # Toss in the header
-        response_file.write(",".join(self.RESULT_HEADER) + "\n")
+        self.response_file.write(",".join(self.RESULT_HEADER) + "\n")
 
         # Loop through the chunks and get results for them one at a time
-        for chunk in address_chunks:
-            # Convert the chunk into a file object again
-            if six.PY3:
-                chunk_file = io.StringIO()
-            else:
-                chunk_file = io.BytesIO()
-            chunk_writer = csv.writer(chunk_file)
-            chunk_writer.writerows(chunk)
-
-            # Request batch from the API
-            if six.PY3:
-                request_file = io.StringIO(chunk_file.getvalue())
-            else:
-                request_file = io.BytesIO(chunk_file.getvalue())
-            response = self.get_response(request_file, file_type=file_type)
-
-            # Add the response to what we return
-            response_file.write(response.text)
+        if self.pooling:
+            cpu_count = multiprocessing.cpu_count()
+            logger.debug("Pooling on {} CPUs".format(cpu_count))
+            pool = ThreadPool(processes=cpu_count)
+            pool.map(self._handle_chunk, address_chunks)
+        else:
+            [self._handle_chunk(c) for c in address_chunks]
 
         # Parse the response file as a CSV
-        csv_file = io.StringIO(response_file.getvalue())
+        csv_file = io.StringIO(self.response_file.getvalue())
         response_list = csv.DictReader(csv_file)
 
         # Pass it back
@@ -125,10 +137,17 @@ def geocode(
     benchmark='Public_AR_Current',
     vintage='Current_Current',
     return_type='locations',
-    batch_size=1000
+    batch_size=1000,
+    pooling=True,
 ):
     """
     Accepts a file object or path with a batch of addresses and attempts to geocode it.
     """
-    obj = Geocoder(benchmark=benchmark, vintage=vintage, return_type=return_type, batch_size=batch_size)
+    obj = Geocoder(
+        benchmark=benchmark,
+        vintage=vintage,
+        return_type=return_type,
+        batch_size=batch_size,
+        pooling=pooling
+    )
     return obj.geocode(string_or_stream)

@@ -31,6 +31,10 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path)
         self.assertEqual(len(result), 5)
 
+    def test_nopooling(self):
+        result = censusbatchgeocoder.geocode(self.small_path, pooling=False)
+        self.assertEqual(len(result), 5)
+
     def test_medium_batch(self):
         result = censusbatchgeocoder.geocode(self.big_path, batch_size=50)
         self.assertEqual(len(result), 1498)
