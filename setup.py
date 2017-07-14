@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='censusbatchgeocoder',
-    version='0.0.6',
+    version='0.0.7',
     description='A simple Python wrapper for U.S. Census Geocoding Services API batch service',
     author='Los Angeles Times Data Desk',
     author_email='datadesk@latimes.com',
