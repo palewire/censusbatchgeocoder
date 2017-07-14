@@ -75,7 +75,7 @@ class Geocoder(object):
         if hasattr(string_or_stream, 'read'):
             address_file = string_or_stream
         else:
-            address_file = open(string_or_stream, 'rb')
+            address_file = open(string_or_stream, 'r')
 
         # Read it in as a csv
         address_csv = list(csv.reader(address_file))
