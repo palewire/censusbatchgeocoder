@@ -25,17 +25,18 @@ Importing the library
 >>> import censusbatchgeocoder
 ```
 
-According to the [official Census documentation](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html), the input file is expected to contain a comma-delimited list of addresses, without a header, segmented into the following fields.
+According to the [official Census documentation](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html), the input file is expected to contain a comma-delimited list of addresses segmented into the following fields:
 
-* Your unique identifier for the record
-* Structure number and street name (required)
-* City name (optional)
-* State (optional)
-* ZIP Code (optional)
+* ``id``: Your unique identifier for the record
+* ``address``: Structure number and street name (required)
+* ``city``: City name (optional)
+* ``state``: State (optional)
+* ``zipcode``: ZIP Code (optional)
 
 An example could look like this:
 
 ```text
+id,address,city,state,zipcode
 1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012
 ```
@@ -73,7 +74,8 @@ Geocoding a comma-delimited file from the filesystem. Results are returned as a 
 You can also geocode an in-memory file object.
 
 ```python
->>> my_data = """1,1600 Pennsylvania Ave NW,Washington,DC,20006
+>>> my_data = """id,address,city,state,zipcode
+1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012"""
 >>> result = censusbatchgeocoder.geocode(io.StringIO(my_data))
 [{'address': '202 W. 1st Street, Los Angeles, CA, 90012',

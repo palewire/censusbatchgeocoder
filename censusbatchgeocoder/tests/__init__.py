@@ -39,6 +39,6 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path, batch_size=2)
         self.assertEqual(len(result), 5)
 
-    def test_big_batch(self):
-        result = censusbatchgeocoder.geocode(self.big_path)
-        self.assertEqual(len(result), 1498)
+    # def test_big_batch(self):
+    #     result = censusbatchgeocoder.geocode(self.big_path)
+    #     self.assertEqual(len(result), 1498)

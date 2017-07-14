@@ -38,12 +38,24 @@ class Geocoder(object):
         return_type='locations',
         batch_size=1000,
         pooling=True,
+        id="id",
+        address="address",
+        city="city",
+        state="state",
+        zipcode="zipcode"
     ):
         self.benchmark = benchmark
         self.vintage = vintage
         self.return_type = return_type
         self.batch_size = batch_size
         self.pooling = pooling
+        self.field_names = {
+            'id': id,
+            'address': address,
+            'city': city,
+            'state': state,
+            'zipcode': zipcode
+        }
 
     def get_payload(self):
         """
@@ -86,7 +98,15 @@ class Geocoder(object):
         # Convert the chunk into a file object again
         chunk_file = io_klass()
         chunk_writer = csv.writer(chunk_file)
-        chunk_writer.writerows(chunk)
+        for row_dict in chunk:
+            row_list = [
+                row_dict[self.field_names['id']],
+                row_dict[self.field_names['address']],
+                row_dict[self.field_names['city']],
+                row_dict[self.field_names['state']],
+                row_dict[self.field_names['zipcode']],
+            ]
+            chunk_writer.writerow(row_list)
 
         # Request batch from the API
         request_file = io_klass(chunk_file.getvalue())
@@ -106,7 +126,7 @@ class Geocoder(object):
             address_file = open(string_or_stream, 'r')
 
         # Read it in as a csv
-        address_csv = list(csv.reader(address_file))
+        address_csv = list(csv.DictReader(address_file))
 
         # Break it into chunks
         address_chunks = list(self.get_chunks(address_csv))
@@ -141,6 +161,11 @@ def geocode(
     return_type='locations',
     batch_size=1000,
     pooling=True,
+    id="id",
+    address="address",
+    city="city",
+    state="state",
+    zipcode="zipcode"
 ):
     """
     Accepts a file object or path with a batch of addresses and attempts to geocode it.
@@ -150,6 +175,11 @@ def geocode(
         vintage=vintage,
         return_type=return_type,
         batch_size=batch_size,
-        pooling=pooling
+        pooling=pooling,
+        id=id,
+        address=address,
+        city=city,
+        state=state,
+        zipcode=zipcode
     )
     return obj.geocode(string_or_stream)
