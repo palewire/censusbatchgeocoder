@@ -192,6 +192,22 @@ A list of dictionaries, like those created by the csv module's ``DictReader`` ca
 >>> censusbatchgeocoder.geocode(my_list)
 ```
 
+#### pandas DataFrames
+
+You can geocode a pandas DataFrame by converting it into a list of dictionaries.
+
+```python
+>>> result = censusbatchgeocoder.geocode(df.to_dict("records"))
+```
+
+Then convert it back into a DataFrame.
+
+```python
+>>> result_df = pd.DataFrame(result)
+```
+
+That's it.
+
 #### File objects
 
 You can also geocode an in-memory file object of data in CSV format.
