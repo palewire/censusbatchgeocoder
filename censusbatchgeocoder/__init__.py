@@ -34,10 +34,12 @@ class Geocoder(object):
         benchmark='Public_AR_Current',
         vintage='Current_Current',
         return_type='locations',
+        batch_size=1000
     ):
         self.benchmark = benchmark
         self.vintage = vintage
         self.return_type = return_type
+        self.batch_size = batch_size
 
     def get_payload(self):
         """
@@ -59,14 +61,14 @@ class Geocoder(object):
         logger.debug("Sending request")
         return requests.post(self.URL, files=files, data=self.get_payload())
 
-    def get_chunks(self, l, n=1000):
+    def get_chunks(self, l):
         """
-        Breaks up the provided list into chunks no bigger than 1,000 each.
+        Breaks up the provided list into chunks.
         """
         # For item i in a range that is a length of l,
-        for i in range(0, len(l), n):
+        for i in range(0, len(l), self.batch_size):
             # Create an index range for l of n items:
-            yield l[i:i+n]
+            yield l[i:i+self.batch_size]
 
     def geocode(self, string_or_stream, file_type='text/csv'):
         """
@@ -123,9 +125,10 @@ def geocode(
     benchmark='Public_AR_Current',
     vintage='Current_Current',
     return_type='locations',
+    batch_size=1000
 ):
     """
     Accepts a file object or path with a batch of addresses and attempts to geocode it.
     """
-    obj = Geocoder(benchmark=benchmark, vintage=vintage, return_type=return_type)
+    obj = Geocoder(benchmark=benchmark, vintage=vintage, return_type=return_type, batch_size=batch_size)
     return obj.geocode(string_or_stream)
