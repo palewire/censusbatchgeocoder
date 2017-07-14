@@ -6,6 +6,7 @@ Tests censusbatchgeocoder wrapper.
 from __future__ import unicode_literals
 import io
 import os
+import six
 import unittest
 import censusbatchgeocoder
 
@@ -19,7 +20,10 @@ class GeocoderTest(unittest.TestCase):
 
     def test_stringio(self):
         with open(self.small_path, 'r') as f:
-            sample = io.BytesIO(f.read())
+            if six.PY3:
+                sample = io.StringIO(f.read())
+            else:
+                sample = io.BytesIO(f.read())
         result = censusbatchgeocoder.geocode(sample)
         self.assertEqual(len(result), 5)
 
