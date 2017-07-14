@@ -78,19 +78,18 @@ class Geocoder(object):
         """
         Geocodes the provided chunk and appends it to the response file.
         """
-        # Convert the chunk into a file object again
         if six.PY3:
-            chunk_file = io.StringIO()
+            io_klass = io.StringIO
         else:
-            chunk_file = io.BytesIO()
+            io_klass = io.BytesIO
+
+        # Convert the chunk into a file object again
+        chunk_file = io_klass()
         chunk_writer = csv.writer(chunk_file)
         chunk_writer.writerows(chunk)
 
         # Request batch from the API
-        if six.PY3:
-            request_file = io.StringIO(chunk_file.getvalue())
-        else:
-            request_file = io.BytesIO(chunk_file.getvalue())
+        io_klass(chunk_file.getvalue())
         response = self.get_response(request_file)
 
         # Add the response to what we return
