@@ -89,7 +89,7 @@ class Geocoder(object):
         chunk_writer.writerows(chunk)
 
         # Request batch from the API
-        io_klass(chunk_file.getvalue())
+        request_file = io_klass(chunk_file.getvalue())
         response = self.get_response(request_file)
 
         # Add the response to what we return
