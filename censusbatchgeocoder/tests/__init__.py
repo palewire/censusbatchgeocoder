@@ -18,6 +18,7 @@ class GeocoderTest(unittest.TestCase):
         self.small_path = os.path.join(self.this_dir, 'small.csv')
         self.incomplete_path = os.path.join(self.this_dir, 'incomplete.csv')
         self.weird_path = os.path.join(self.this_dir, 'weird.csv')
+        self.extra_path = os.path.join(self.this_dir, 'extra.csv')
         self.big_path = os.path.join(self.this_dir, 'big.csv')
 
     def test_stringio(self):
@@ -33,6 +34,10 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path)
         self.assertEqual(len(result), 5)
 
+    def test_extra_columns(self):
+        result = censusbatchgeocoder.geocode(self.extra_path)
+        self.assertEqual(len(result), 5)
+
     def test_weird_headers(self):
         result = censusbatchgeocoder.geocode(
             self.weird_path,
@@ -44,7 +49,7 @@ class GeocoderTest(unittest.TestCase):
         )
         self.assertEqual(len(result), 5)
 
-    def test_state_and_zipcode(self):
+    def test_no_state_and_zipcode(self):
         result = censusbatchgeocoder.geocode(self.incomplete_path, state=None, zipcode=None)
         self.assertEqual(len(result), 5)
 
