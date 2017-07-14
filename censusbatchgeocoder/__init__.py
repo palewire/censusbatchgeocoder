@@ -135,7 +135,7 @@ class Geocoder(object):
             # This if for file objects
             request_file = string_or_stream
             request_csv = list(csv.DictReader(request_file))
-        elif isinstance(string_or_stream, basestring):
+        elif isinstance(string_or_stream, six.string_types):
             # This is for strings that should be a path leading to a file
             request_file = open(string_or_stream, 'r')
             request_csv = list(csv.DictReader(request_file))
