@@ -143,7 +143,7 @@ id,address,city,state,zipcode,my_metadata
 
 #### Custom column names
 
-If you column headers do not exactly match those expected by the geocoder you can override themself.
+If you have column headers do not exactly match those expected by the geocoder you can override themself.
 
 So a file like this:
 
@@ -201,28 +201,4 @@ You can also geocode an in-memory file object of data in CSV format.
 1,1600 Pennsylvania Ave NW,Washington,DC,20006
 2,202 W. 1st Street,Los Angeles,CA,90012"""
 >>> censusbatchgeocoder.geocode(io.StringIO(my_data))
-[{'geocoded_address': '202 W. 1st Street, Los Angeles, CA, 90012',
-  'block': '1034',
-  'coordinates': '-118.24456,34.053005',
-  'county_fips': '037',
-  'returned_address': '202 W 1ST ST, LOS ANGELES, CA, 90012',
-  'id': '2',
-  'is_exact': 'Exact',
-  'is_match': 'Match',
-  'side': 'L',
-  'state_fips': '06',
-  'tiger_line': '141618115',
-  'tract': '207400'},
- {'geocoded_address': '1600 Pennsylvania Ave NW, Washington, DC, 20006',
-  'block': '1031',
-  'coordinates': '-77.03535,38.898754',
-  'county_fips': '001',
-  'returned_address': '1600 PENNSYLVANIA AVE NW, WASHINGTON, DC, 20502',
-  'id': '1',
-  'is_exact': 'Non_Exact',
-  'is_match': 'Match',
-  'side': 'L',
-  'state_fips': '11',
-  'tiger_line': '76225813',
-  'tract': '006202'}]
 ```
