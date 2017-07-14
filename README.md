@@ -29,7 +29,7 @@ According to the [official Census documentation](https://www.documentcloud.org/d
 
 * ``id``: Your unique identifier for the record
 * ``address``: Structure number and street name (required)
-* ``city``: City name (optional)
+* ``city``: City name (required)
 * ``state``: State (optional)
 * ``zipcode``: ZIP Code (optional)
 
