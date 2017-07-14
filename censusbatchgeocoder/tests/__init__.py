@@ -18,7 +18,7 @@ class GeocoderTest(unittest.TestCase):
         self.big_path = os.path.join(self.this_dir, 'big.csv')
 
     def test_stringio(self):
-        sample = io.BytesIO(open(self.small_path, 'rb').read())
+        sample = io.BytesIO(open(self.small_path, 'r').read())
         result = censusbatchgeocoder.geocode(sample)
         self.assertEqual(len(result), 5)
 
