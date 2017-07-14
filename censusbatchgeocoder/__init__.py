@@ -18,10 +18,10 @@ class Geocoder(object):
     URL = 'https://geocoding.geo.census.gov/geocoder/geographies/addressbatch'
     RESULT_HEADER = [
         'id',
-        'input_address',
+        'geocoded_address',
         'is_match',
         'is_exact',
-        'geocoded_address',
+        'returned_address',
         'coordinates',
         'tiger_line',
         'side',
@@ -132,15 +132,15 @@ class Geocoder(object):
         """
         # Depending on what kind of data has been submitted prepare the file object
         if hasattr(string_or_stream, 'read'):
-            address_file = string_or_stream
+            request_file = string_or_stream
         else:
-            address_file = open(string_or_stream, 'r')
+            request_file = open(string_or_stream, 'r')
 
         # Read it in as a csv
-        address_csv = list(csv.DictReader(address_file))
+        request_csv = list(csv.DictReader(request_file))
 
         # Break it into chunks
-        address_chunks = list(self.get_chunks(address_csv))
+        request_chunks = list(self.get_chunks(request_csv))
 
         # Create the string we'll build on the fly as we hit the API and process responses
         self.response_file = io.StringIO()
@@ -153,16 +153,36 @@ class Geocoder(object):
             cpu_count = multiprocessing.cpu_count()
             logger.debug("Pooling on {} CPUs".format(cpu_count))
             pool = ThreadPool(processes=cpu_count)
-            pool.map(self._handle_chunk, address_chunks)
+            pool.map(self._handle_chunk, request_chunks)
         else:
-            [self._handle_chunk(c) for c in address_chunks]
+            [self._handle_chunk(c) for c in request_chunks]
 
         # Parse the response file as a CSV
         csv_file = io.StringIO(self.response_file.getvalue())
-        response_list = csv.DictReader(csv_file)
+        response_list = list(csv.DictReader(csv_file))
+
+        # Merge it with the input file by first making a lookup by id
+        response_lookup = dict((d['id'], d) for d in response_list)
+
+        # Create a new list to store the combined data
+        combined_list = []
+
+        # Loop through all of the rows in the request
+        for request_row in request_csv:
+            # For each one grab the response data
+            response_row = response_lookup[request_row[self.field_names['id']]]
+
+            # Pop the id out of the response since it's already in the request
+            del response_row['id']
+
+            # Add the response data to the request row
+            request_row.update(response_row)
+
+            # Add it to the combined list
+            combined_list.append(request_row)
 
         # Pass it back
-        return list(response_list)
+        return combined_list
 
 
 def geocode(

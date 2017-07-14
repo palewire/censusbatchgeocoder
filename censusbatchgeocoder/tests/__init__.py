@@ -36,6 +36,14 @@ class GeocoderTest(unittest.TestCase):
 
     def test_extra_columns(self):
         result = censusbatchgeocoder.geocode(self.extra_path)
+        self.assertEqual(
+            [d['metadata_1'] for d in result],
+            ['foo', 'bar', 'baz', 'bada', 'bing']
+        )
+        self.assertEqual(
+            [d['metadata_2'] for d in result],
+            ['eenie', 'meenie', 'miney', 'moe', 'catch a tiger by the toe']
+        )
         self.assertEqual(len(result), 5)
 
     def test_weird_headers(self):
@@ -61,6 +69,6 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path, batch_size=2)
         self.assertEqual(len(result), 5)
 
-    # def test_big_batch(self):
-    #     result = censusbatchgeocoder.geocode(self.big_path)
-    #     self.assertEqual(len(result), 1498)
+    def test_big_batch(self):
+        result = censusbatchgeocoder.geocode(self.big_path)
+        self.assertEqual(len(result), 1498)
