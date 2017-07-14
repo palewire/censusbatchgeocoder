@@ -101,7 +101,10 @@ class Geocoder(object):
             chunk_writer.writerows(chunk)
 
             # Request batch from the API
-            request_file = io.BytesIO(chunk_file.getvalue())
+            if six.PY3:
+                request_file = io.StringIO(chunk_file.getvalue())
+            else:
+                request_file = io.BytesIO(chunk_file.getvalue())
             response = self.get_response(request_file, file_type=file_type)
 
             # Add the response to what we return
