@@ -34,6 +34,23 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path)
         self.assertEqual(len(result), 5)
 
+    def test_list(self):
+        my_list = [{
+            'address': '521 SWARTHMORE AVENUE',
+            'city': 'PACIFIC PALISADES',
+            'id': '1',
+            'state': 'CA',
+            'zipcode': '90272-4350'},
+            {
+            'address': '2015 W TEMPLE STREET',
+            'city': 'LOS ANGELES',
+            'id': '2',
+            'state': 'CA',
+            'zipcode': '90026-4913'
+        }]
+        result = censusbatchgeocoder.geocode(my_list)
+        self.assertEqual(len(result), 2)
+
     def test_extra_columns(self):
         result = censusbatchgeocoder.geocode(self.extra_path)
         self.assertEqual(

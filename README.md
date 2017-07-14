@@ -174,6 +174,24 @@ The state and ZIP Code columns are optional. If your data doesn't have them, pas
 >>> censusbatchgeocoder.geocode("./my_file.csv", state=None, zipcode=None)
 ```
 
+#### Lists of dictionaries
+
+A list of dictionaries, like those created by the csv module's ``DictReader`` can also be mapped.
+
+```python
+>>> my_list = [{'address': '521 SWARTHMORE AVENUE',
+  'city': 'PACIFIC PALISADES',
+  'id': '1',
+  'state': 'CA',
+  'zipcode': '90272-4350'},
+ {'address': '2015 W TEMPLE STREET',
+  'city': 'LOS ANGELES',
+  'id': '2',
+  'state': 'CA',
+  'zipcode': '90026-4913'}]
+>>> censusbatchgeocoder.geocode(my_list)
+```
+
 #### File objects
 
 You can also geocode an in-memory file object of data in CSV format.

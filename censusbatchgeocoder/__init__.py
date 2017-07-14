@@ -132,12 +132,16 @@ class Geocoder(object):
         """
         # Depending on what kind of data has been submitted prepare the file object
         if hasattr(string_or_stream, 'read'):
+            # This if for file objects
             request_file = string_or_stream
-        else:
+            request_csv = list(csv.DictReader(request_file))
+        elif isinstance(string_or_stream, basestring):
+            # This is for strings that should be a path leading to a file
             request_file = open(string_or_stream, 'r')
-
-        # Read it in as a csv
-        request_csv = list(csv.DictReader(request_file))
+            request_csv = list(csv.DictReader(request_file))
+        else:
+            # Otherwise we assume it's a list of dictionaries ready to go
+            request_csv = string_or_stream
 
         # Break it into chunks
         request_chunks = list(self.get_chunks(request_csv))
