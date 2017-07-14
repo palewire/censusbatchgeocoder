@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 import io
 import csv
+import six
 import logging
 import requests
 logger = logging.getLogger(__name__)
@@ -92,7 +93,10 @@ class Geocoder(object):
         # Loop through the chunks and get results for them one at a time
         for chunk in address_chunks:
             # Convert the chunk into a file object again
-            chunk_file = io.BytesIO()
+            if six.PY3:
+                chunk_file = io.StringIO()
+            else:
+                chunk_file = io.BytesIO()
             chunk_writer = csv.writer(chunk_file)
             chunk_writer.writerows(chunk)
 
