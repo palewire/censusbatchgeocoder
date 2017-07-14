@@ -75,6 +75,9 @@ class Geocoder(object):
             yield l[i:i+self.batch_size]
 
     def _handle_chunk(self, chunk):
+        """
+        Geocodes the provided chunk and appends it to the response file.
+        """
         # Convert the chunk into a file object again
         if six.PY3:
             chunk_file = io.StringIO()
