@@ -59,7 +59,7 @@ class Geocoder(object):
         }
         self.encoding = encoding
         self.agate_options = {}
-        if self.encoding:
+        if self.encoding and six.PY2:
             self.agate_options['encoding'] = self.encoding
 
     def get_payload(self):

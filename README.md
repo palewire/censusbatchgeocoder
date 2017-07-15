@@ -221,7 +221,7 @@ You can also geocode an in-memory file object of data in CSV format.
 
 #### Different encodings
 
-If your CSV file has an unusual encoding causing problems, you can pass it in.
+If you are using Python 2 and your CSV file has an unusual encoding that's causing problems, try explicitly passing in the encoding name.
 
 ```python
 >>> censusbatchgeocoder.geocode("./my_file.csv", encoding="utf-8-sig")
