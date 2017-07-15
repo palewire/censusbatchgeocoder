@@ -62,6 +62,7 @@ The results are returned with the following columns from the Census
 * ``state_fips``: The FIPS state code identifying the state of the match.
 * ``county_fips``: The FIPS county code identifying the county of the match.
 * ``tract``: The Census tract of the match.
+* ``block``: The Census block of the match.
 
 ```python
 >>> print results
