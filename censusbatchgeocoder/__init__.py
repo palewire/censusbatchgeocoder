@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import io
-import csv
 import six
+import agate
 import logging
 import requests
 import multiprocessing
@@ -97,7 +97,7 @@ class Geocoder(object):
 
         # Convert the chunk into a file object again
         chunk_file = io_klass()
-        chunk_writer = csv.writer(chunk_file)
+        chunk_writer = agate.csv.writer(chunk_file)
         for row_dict in chunk:
             # Start off with the required fields
             row_list = [
@@ -134,11 +134,11 @@ class Geocoder(object):
         if hasattr(string_or_stream, 'read'):
             # This if for file objects
             request_file = string_or_stream
-            request_csv = list(csv.DictReader(request_file))
+            request_csv = list(agate.csv.DictReader(request_file))
         elif isinstance(string_or_stream, six.string_types):
             # This is for strings that should be a path leading to a file
             request_file = open(string_or_stream, 'r')
-            request_csv = list(csv.DictReader(request_file))
+            request_csv = list(agate.csv.DictReader(request_file))
         else:
             # Otherwise we assume it's a list of dictionaries ready to go
             request_csv = string_or_stream
@@ -163,7 +163,7 @@ class Geocoder(object):
 
         # Parse the response file as a CSV
         csv_file = io.StringIO(self.response_file.getvalue())
-        response_list = list(csv.DictReader(csv_file))
+        response_list = list(agate.csv.DictReader(csv_file))
 
         # Merge it with the input file by first making a lookup by id
         response_lookup = dict((d['id'], d) for d in response_list)
