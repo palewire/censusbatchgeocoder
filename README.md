@@ -218,3 +218,11 @@ You can also geocode an in-memory file object of data in CSV format.
 2,202 W. 1st Street,Los Angeles,CA,90012"""
 >>> censusbatchgeocoder.geocode(io.StringIO(my_data))
 ```
+
+#### Different encodings
+
+If your CSV file has an unusual encoding causing problems, you can pass it in.
+
+```python
+>>> censusbatchgeocoder.geocode("./my_file.csv", encoding="utf-8-sig")
+```
