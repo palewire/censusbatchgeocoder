@@ -155,7 +155,9 @@ class Geocoder(object):
         self.response_file = io.StringIO()
 
         # Toss in the header
-        self.response_file.write(",".join(self.RESULT_HEADER) + "\n")
+        self.response_file.write(
+            "{}\n".format(",".join(self.RESULT_HEADER)),
+        )
 
         # Loop through the chunks and get results for them one at a time
         if self.pooling:
@@ -167,8 +169,15 @@ class Geocoder(object):
             [self._handle_chunk(c) for c in request_chunks]
 
         # Parse the response file as a CSV
-        csv_file = io.StringIO(self.response_file.getvalue())
-        response_list = list(agate.csv.DictReader(csv_file, **self.agate_options))
+        if six.PY2:
+            csv_io_klass = io.BytesIO
+            csv_file = csv_io_klass(self.response_file.getvalue().encode("utf-8"))
+        else:
+            csv_io_klass = io.StringIO
+            csv_file = csv_io_klass(self.response_file.getvalue())
+
+        # Read it back in
+        response_list = list(agate.csv.DictReader(csv_file))
 
         # Merge it with the input file by first making a lookup by id
         response_lookup = dict((d['id'], d) for d in response_list)
