@@ -143,7 +143,7 @@ id,address,city,state,zipcode,my_metadata
 
 #### Custom column names
 
-If you have column headers do not exactly match those expected by the geocoder you can override themself.
+If you have column headers that do not exactly match those expected by the geocoder you should override them.
 
 So a file like this:
 
