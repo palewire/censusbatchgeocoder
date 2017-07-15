@@ -19,6 +19,7 @@ class GeocoderTest(unittest.TestCase):
         self.incomplete_path = os.path.join(self.this_dir, 'incomplete.csv')
         self.weird_path = os.path.join(self.this_dir, 'weird.csv')
         self.wide_path = os.path.join(self.this_dir, 'wide.csv')
+        self.bom_path = os.path.join(self.this_dir, 'bom.csv')
         self.extra_path = os.path.join(self.this_dir, 'extra.csv')
         self.big_path = os.path.join(self.this_dir, 'big.csv')
 
@@ -85,6 +86,18 @@ class GeocoderTest(unittest.TestCase):
             zipcode="Zip"
         )
         self.assertEqual(len(result), 10)
+
+    def test_bom(self):
+        result = censusbatchgeocoder.geocode(
+            self.bom_path,
+            id="Affidavit ID",
+            address="Street",
+            city="City",
+            state="State",
+            zipcode="Zip",
+            encoding="utf-8-sig"
+        )
+        self.assertEqual(len(result), 4)
 
     def test_no_state_and_zipcode(self):
         result = censusbatchgeocoder.geocode(self.incomplete_path, state=None, zipcode=None)

@@ -42,7 +42,8 @@ class Geocoder(object):
         address="address",
         city="city",
         state="state",
-        zipcode="zipcode"
+        zipcode="zipcode",
+        encoding=None
     ):
         self.benchmark = benchmark
         self.vintage = vintage
@@ -56,6 +57,10 @@ class Geocoder(object):
             'state': state,
             'zipcode': zipcode
         }
+        self.encoding = encoding
+        self.agate_options = {}
+        if self.encoding:
+            self.agate_options['encoding'] = self.encoding
 
     def get_payload(self):
         """
@@ -134,11 +139,11 @@ class Geocoder(object):
         if hasattr(string_or_stream, 'read'):
             # This if for file objects
             request_file = string_or_stream
-            request_csv = list(agate.csv.DictReader(request_file))
+            request_csv = list(agate.csv.DictReader(request_file, **self.agate_options))
         elif isinstance(string_or_stream, six.string_types):
             # This is for strings that should be a path leading to a file
             request_file = open(string_or_stream, 'r')
-            request_csv = list(agate.csv.DictReader(request_file))
+            request_csv = list(agate.csv.DictReader(request_file, **self.agate_options))
         else:
             # Otherwise we assume it's a list of dictionaries ready to go
             request_csv = string_or_stream
@@ -200,7 +205,8 @@ def geocode(
     address="address",
     city="city",
     state="state",
-    zipcode="zipcode"
+    zipcode="zipcode",
+    encoding=None
 ):
     """
     Accepts a file object or path with a batch of addresses and attempts to geocode it.
@@ -215,6 +221,7 @@ def geocode(
         address=address,
         city=city,
         state=state,
-        zipcode=zipcode
+        zipcode=zipcode,
+        encoding=encoding,
     )
     return obj.geocode(string_or_stream)
