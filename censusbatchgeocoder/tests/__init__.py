@@ -82,8 +82,7 @@ class GeocoderTest(unittest.TestCase):
             address="Street",
             city="City",
             state="State",
-            zipcode="Zip",
-            pooling=False,
+            zipcode="Zip"
         )
         self.assertEqual(len(result), 10)
 
