@@ -168,7 +168,7 @@ class Geocoder(object):
 
         # Parse the response file as a CSV
         csv_file = io.StringIO(self.response_file.getvalue())
-        response_list = list(agate.csv.DictReader(csv_file))
+        response_list = list(agate.csv.DictReader(csv_file, **self.agate_options))
 
         # Merge it with the input file by first making a lookup by id
         response_lookup = dict((d['id'], d) for d in response_list)
@@ -179,7 +179,8 @@ class Geocoder(object):
         # Loop through all of the rows in the request
         for request_row in request_csv:
             # For each one grab the response data
-            response_row = response_lookup[request_row[self.field_names['id']]]
+            row_key = "{}".format(request_row[self.field_names['id']])
+            response_row = response_lookup[row_key]
 
             # Pop the id out of the response since it's already in the request
             del response_row['id']
