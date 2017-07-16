@@ -43,7 +43,8 @@ class Geocoder(object):
         city="city",
         state="state",
         zipcode="zipcode",
-        encoding=None
+        encoding=None,
+        user_agent="python-censusbatchgeocoder (https://github.com/datadesk/python-censusbatchgeocoder)"
     ):
         self.benchmark = benchmark
         self.vintage = vintage
@@ -61,6 +62,7 @@ class Geocoder(object):
         self.agate_options = {}
         if self.encoding and six.PY2:
             self.agate_options['encoding'] = self.encoding
+        self.user_agent = user_agent
 
     def get_payload(self):
         """
@@ -79,8 +81,11 @@ class Geocoder(object):
         files = {
             'addressFile': ('batch.csv', address_file, 'text/csv')
         }
+        headers = {
+            'User-Agent': self.user_agent
+        }
         logger.debug("Sending request")
-        return requests.post(self.URL, files=files, data=self.get_payload())
+        return requests.post(self.URL, headers=headers, files=files, data=self.get_payload())
 
     def get_chunks(self, l):
         """
@@ -204,34 +209,9 @@ class Geocoder(object):
         return combined_list
 
 
-def geocode(
-    string_or_stream,
-    benchmark='Public_AR_Current',
-    vintage='Current_Current',
-    return_type='locations',
-    batch_size=1000,
-    pooling=True,
-    id="id",
-    address="address",
-    city="city",
-    state="state",
-    zipcode="zipcode",
-    encoding=None
-):
+def geocode(string_or_stream, **kwargs):
     """
     Accepts a file object or path with a batch of addresses and attempts to geocode it.
     """
-    obj = Geocoder(
-        benchmark=benchmark,
-        vintage=vintage,
-        return_type=return_type,
-        batch_size=batch_size,
-        pooling=pooling,
-        id=id,
-        address=address,
-        city=city,
-        state=state,
-        zipcode=zipcode,
-        encoding=encoding,
-    )
+    obj = Geocoder(**kwargs)
     return obj.geocode(string_or_stream)
