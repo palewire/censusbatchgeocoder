@@ -147,7 +147,10 @@ class Geocoder(object):
             request_csv = list(agate.csv.DictReader(request_file, **self.agate_options))
         elif isinstance(string_or_stream, six.string_types):
             # This is for strings that should be a path leading to a file
-            request_file = open(string_or_stream, 'r')
+            if six.PY3 and self.encoding:
+                request_file = open(string_or_stream, 'r', encoding=self.encoding)
+            else:
+                request_file = open(string_or_stream, 'r')
             request_csv = list(agate.csv.DictReader(request_file, **self.agate_options))
         else:
             # Otherwise we assume it's a list of dictionaries ready to go

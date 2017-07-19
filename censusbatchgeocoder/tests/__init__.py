@@ -87,17 +87,17 @@ class GeocoderTest(unittest.TestCase):
         )
         self.assertEqual(len(result), 10)
 
-    # def test_bom(self):
-    #     result = censusbatchgeocoder.geocode(
-    #         self.bom_path,
-    #         id="Affidavit ID",
-    #         address="Street",
-    #         city="City",
-    #         state="State",
-    #         zipcode="Zip",
-    #         encoding="utf-8-sig"
-    #     )
-    #     self.assertEqual(len(result), 4)
+    def test_bom(self):
+        result = censusbatchgeocoder.geocode(
+            self.bom_path,
+            id="Affidavit ID",
+            address="Street",
+            city="City",
+            state="State",
+            zipcode="Zip",
+            encoding="utf-8-sig"
+        )
+        self.assertEqual(len(result), 4)
 
     def test_no_state_and_zipcode(self):
         result = censusbatchgeocoder.geocode(self.incomplete_path, state=None, zipcode=None)
@@ -111,6 +111,6 @@ class GeocoderTest(unittest.TestCase):
         result = censusbatchgeocoder.geocode(self.small_path, batch_size=2)
         self.assertEqual(len(result), 5)
 
-    def test_big_batch(self):
-        result = censusbatchgeocoder.geocode(self.big_path)
-        self.assertEqual(len(result), 1498)
+    # def test_big_batch(self):
+    #     result = censusbatchgeocoder.geocode(self.big_path)
+    #     self.assertEqual(len(result), 1498)
