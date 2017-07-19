@@ -117,6 +117,6 @@ class GeocoderTest(unittest.TestCase):
             self.assertTrue('latitude' in row)
             self.assertTrue('longitude' in row)
 
-    # def test_big_batch(self):
-    #     result = censusbatchgeocoder.geocode(self.big_path)
-    #     self.assertEqual(len(result), 1498)
+    def test_big_batch(self):
+        result = censusbatchgeocoder.geocode(self.big_path)
+        self.assertEqual(len(result), 1498)
