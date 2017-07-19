@@ -202,6 +202,12 @@ class Geocoder(object):
             # Pop the id out of the response since it's already in the request
             del response_row['id']
 
+            # Parse the latitude and longitude out of the coordinates response
+            if response_row['coordinates']:
+                response_row['longitude'], response_row['latitude'] = map(float, response_row['coordinates'].split(","))
+            else:
+                response_row['longitude'], response_row['latitude'] = None, None
+
             # Add the response data to the request row
             request_row.update(response_row)
 
