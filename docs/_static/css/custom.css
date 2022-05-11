@@ -228,3 +228,7 @@ a:active {
   text-decoration: underline;
   color: #000;
 }
+
+.contents ul p {
+    margin-bottom: 0;
+}
