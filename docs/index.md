@@ -8,7 +8,7 @@ A simple Python wrapper for the [U.S. Census Geocoding Services API batch servic
 ## Installation
 
 ```bash
-pip install censusbatchgeocoder
+pipenv install censusbatchgeocoder
 ```
 
 ## Basic usage
