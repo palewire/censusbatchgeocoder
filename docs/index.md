@@ -5,6 +5,11 @@
 
 A simple Python wrapper for the [U.S. Census Geocoding Services API batch service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html)
 
+```{contents} Table of contents
+:local:
+:depth: 2
+```
+
 ## Installation
 
 ```bash
