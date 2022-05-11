@@ -3,7 +3,7 @@
 
 # censusbatchgeocoder
 
-A simple Python wrapper for [U.S. Census Geocoding Services API batch service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html).
+A simple Python wrapper for the [U.S. Census Geocoding Services API batch service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html)
 
 * Issues: [github.com/datadesk/python-censusbatchgeocoder/issues](https://github.com/datadesk/censusbatchgeocoder/issues)
 * Packaging: [pypi.python.org/pypi/censusbatchgeocoder](https://pypi.python.org/pypi/censusbatchgeocoder)

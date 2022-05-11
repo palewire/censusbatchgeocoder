@@ -38,7 +38,7 @@ def local_version(version):
 
 setup(
     name="censusbatchgeocoder",
-    description="A simple Python wrapper for U.S. Census Geocoding Services API batch service",
+    description="A simple Python wrapper for the U.S. Census Geocoding Services API batch service",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="Ben Welsh",
