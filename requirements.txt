@@ -1,7 +1,0 @@
-agate
-requests
-six
-flake8
-twine
-coverage
-coveralls
