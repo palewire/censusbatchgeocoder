@@ -255,7 +255,8 @@ If you are using Python 2 and your CSV file has an unusual encoding that's causi
 censusbatchgeocoder.geocode("./my_file.csv", encoding="utf-8-sig")
 ```
 
-## Links
+## Other resources
 
-* Issues: [github.com/datadesk/python-censusbatchgeocoder/issues](https://github.com/datadesk/censusbatchgeocoder/issues)
+* Code: [github.com/palewire/censusbatchgeocoder/](https://github.com/palewire/censusbatchgeocoder/)
+* Issues: [github.com/palewire/censusbatchgeocoder/issues](https://github.com/palewire/censusbatchgeocoder/issues)
 * Packaging: [pypi.python.org/pypi/censusbatchgeocoder](https://pypi.python.org/pypi/censusbatchgeocoder)
