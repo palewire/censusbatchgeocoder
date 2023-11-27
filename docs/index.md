@@ -1,6 +1,3 @@
-```{include} _templates/nav.html
-```
-
 # censusbatchgeocoder
 
 A simple Python wrapper for the [U.S. Census Geocoding Services API batch service](https://www.documentcloud.org/documents/3894452-Census-Geocoding-Services-API.html)
